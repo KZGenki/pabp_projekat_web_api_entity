@@ -14,4 +14,9 @@ namespace pabp_projekat_web_api_entity.Models
         [ForeignKey("IdStudenta")]
         public virtual Student IdStudentaNavigation { get; set; } = null!;
     }
+    public class PrijavaIspita
+    {
+        public int IdStudenta { get; set; }
+        public int IdIspita { get; set; }
+    }
 }

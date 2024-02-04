@@ -131,8 +131,12 @@ namespace pabp_projekat_web_api_entity.Controllers
         // POST: api/StudentPredmets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<StudentPredmet>> PostStudentPredmet(StudentPredmet studentPredmet)
+        public async Task<ActionResult<StudentPredmet>> PostStudentPredmet(NewStudentPredmet sp)
         {
+            StudentPredmet studentPredmet = new StudentPredmet();
+            studentPredmet.IdPredmeta = sp.IdPredmeta;
+            studentPredmet.IdStudenta = sp.IdStudenta;
+            studentPredmet.SkolskaGodina = sp.SkolskaGodina;
             _context.StudentPredmets.Add(studentPredmet);
             try
             {

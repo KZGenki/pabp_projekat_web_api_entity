@@ -24,13 +24,13 @@ namespace pabp_projekat_web_api_entity.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Prijava_brojIndeksa>>> GetPrijavas()
         {
-            return await _context.Prijavas.ToListAsync();
+            return await _context.Prijava_brojIndeksa.ToListAsync();
         }
 
         [HttpGet("student/{id}")]
         public async Task<ActionResult<IEnumerable<Prijava_brojIndeksa>>> GetPrijava_brojIndeksaZaStudenta(int id)
         {
-            var prijava_brojIndeksa = await _context.Prijavas.Where(p => p.IdStudenta == id).ToListAsync();
+            var prijava_brojIndeksa = await _context.Prijava_brojIndeksa.Where(p => p.IdStudenta == id).ToListAsync();
 
             if (prijava_brojIndeksa == null)
             {
@@ -42,7 +42,7 @@ namespace pabp_projekat_web_api_entity.Controllers
         [HttpGet("ispit/{id}")]
         public async Task<ActionResult<IEnumerable<Prijava_brojIndeksa>>> GetPrijava_brojIndeksaZaIspit(int id)
         {
-            var prijava_brojIndeksa = await _context.Prijavas.Where(p => p.IdIspita == id).ToListAsync();
+            var prijava_brojIndeksa = await _context.Prijava_brojIndeksa.Where(p => p.IdIspita == id).ToListAsync();
 
             if (prijava_brojIndeksa == null)
             {
@@ -101,9 +101,13 @@ namespace pabp_projekat_web_api_entity.Controllers
         // POST: api/Prijava_brojIndeksa
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Prijava_brojIndeksa>> PostPrijava_brojIndeksa(Prijava_brojIndeksa prijava_brojIndeksa)
+        public async Task<ActionResult<Prijava_brojIndeksa>> PostPrijava_brojIndeksa(PrijavaIspita prijava)
         {
-            _context.Prijavas.Add(prijava_brojIndeksa);
+            Prijava_brojIndeksa prijava_brojIndeksa = new Prijava_brojIndeksa();
+            prijava_brojIndeksa.IdIspita = prijava.IdIspita;
+            prijava_brojIndeksa.IdStudenta = prijava.IdStudenta;
+            _context.Prijava_brojIndeksa.Add(prijava_brojIndeksa);
+            
             try
             {
                 await _context.SaveChangesAsync();
@@ -141,7 +145,7 @@ namespace pabp_projekat_web_api_entity.Controllers
 
         private bool Prijava_brojIndeksaExists(int id)
         {
-            return _context.Prijavas.Any(e => e.IdStudenta == id);
+            return _context.Prijava_brojIndeksa.Any(e => e.IdStudenta == id);
         }
     }
 }

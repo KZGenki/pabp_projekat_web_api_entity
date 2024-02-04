@@ -29,7 +29,7 @@ public partial class MasterContext : DbContext
 
     public virtual DbSet<Zapisnik> Zapisniks { get; set; }
 
-    public virtual DbSet<Prijava_brojIndeksa> Prijavas { get; set; }
+    public virtual DbSet<Prijava_brojIndeksa> Prijava_brojIndeksa { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -188,6 +188,14 @@ public partial class MasterContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_zapisnik_student");
         });
+        /*
+        modelBuilder.Entity<Prijava_brojIndeksa>(entity =>
+        {
+            entity.HasKey(e => new { e.IdStudenta, e.IdIspita });
+            entity.ToTable("Prijava_brojIndeksa");
+            entity.HasOne(e => e.IdIspitaNavigation).WithMany().HasForeignKey(e => e.IdIspita);
+            entity.HasOne(e => e.IdStudentaNavigation).WithMany().HasForeignKey(e => e.IdStudenta);
+        });*/
 
         OnModelCreatingPartial(modelBuilder);
     }
