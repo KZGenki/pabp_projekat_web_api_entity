@@ -1,0 +1,6 @@
+@pabp_projekat_web_api_entity_HostAddress = http://localhost:5103
+
+GET {{pabp_projekat_web_api_entity_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
