@@ -20,4 +20,6 @@ public partial class Student
     public virtual ICollection<StudentPredmet> StudentPredmets { get; set; } = new List<StudentPredmet>();
 
     public virtual ICollection<Zapisnik> Zapisniks { get; set; } = new List<Zapisnik>();
+
+    public virtual ICollection<Prijava_brojIndeksa> Prijava_BrojIndeksas { get; set; } = new List<Prijava_brojIndeksa>();
 }

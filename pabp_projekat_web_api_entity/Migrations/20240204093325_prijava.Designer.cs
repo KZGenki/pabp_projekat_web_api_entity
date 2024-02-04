@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using pabp_projekat_web_api_entity.Models;
 
@@ -11,9 +12,11 @@ using pabp_projekat_web_api_entity.Models;
 namespace pabp_projekat_web_api_entity.Migrations
 {
     [DbContext(typeof(MasterContext))]
-    partial class MasterContextModelSnapshot : ModelSnapshot
+    [Migration("20240204093325_prijava")]
+    partial class prijava
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
