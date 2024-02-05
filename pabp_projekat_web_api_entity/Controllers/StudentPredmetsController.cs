@@ -71,7 +71,7 @@ namespace pabp_projekat_web_api_entity.Controllers
             return predmets;
         }
         [HttpGet("nepolozeni/{id}")]
-        public async Task<ActionResult<IEnumerable<Predmet>>> GetUnfinishedPredmetsOfStudent(int id)
+        public async Task<ActionResult<IEnumerable<object>>> GetUnfinishedPredmetsOfStudent(int id)
         {
             var predmetsOfStudentIds = await _context.StudentPredmets
                 .Where(sp => sp.IdStudenta == id)
@@ -89,8 +89,19 @@ namespace pabp_projekat_web_api_entity.Controllers
                 .Where(i => zapisniks.Contains(i.IdIspita))
                 .Select(i => i.IdPredmeta)
                 .ToListAsync();
+            var prijavljeniPredmetiIds = await _context.Prijava_brojIndeksa
+                .Include(p => p.IdIspitaNavigation)
+                .Select(p => p.IdIspitaNavigation.IdPredmeta)
+                .ToListAsync();
 
-            var predmeti = await _context.Predmets.Where(p => predmetsOfStudentIds.Contains(p.IdPredmeta) && !polozeniPredmetiIds.Contains(p.IdPredmeta)).ToListAsync();
+            var predmeti = await _context.Predmets
+                .Where(p => predmetsOfStudentIds.Contains(p.IdPredmeta) && !polozeniPredmetiIds.Contains(p.IdPredmeta))
+                .Select(p=> new
+                {
+                    predmet = p,
+                    prijavljen = prijavljeniPredmetiIds.Contains(p.IdPredmeta)?true:false
+                })
+                .ToListAsync();
 
             return predmeti;
         }
