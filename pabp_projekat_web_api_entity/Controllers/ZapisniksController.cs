@@ -86,6 +86,7 @@ namespace pabp_projekat_web_api_entity.Controllers
         public async Task<ActionResult<object>> GetPolozeni(short id)
         {
             var zapisnik = await _context.Zapisniks
+                .Include(zap=>zap.IdIspitaNavigation)
                 .Where(z => z.IdStudenta == id && z.Ocena > 5)
                 .ToListAsync();
 
@@ -101,7 +102,7 @@ namespace pabp_projekat_web_api_entity.Controllers
             }
             double prosek = suma / ispitiId.Count();
 
-            var ispiti = await _context.Ispits
+            /*var ispiti = await _context.Ispits
                 .Where(i => ispitiId.Contains(i.IdIspita))
                 .ToListAsync();
             var predmetiId = ispiti
@@ -109,8 +110,16 @@ namespace pabp_projekat_web_api_entity.Controllers
 
             var Predmeti = await _context.Predmets
                 .Where(p => predmetiId.Contains(p.IdPredmeta))
-                .ToListAsync();
-
+                .ToListAsync();*/
+            var Predmeti = zapisnik
+                .Join(_context.Predmets,
+                zap => zap.IdIspitaNavigation.IdPredmeta,
+                pred => pred.IdPredmeta,
+                (zap, pred) => new
+                {
+                    predmet = pred,
+                    ocena = zap.Ocena
+                });
 
 
             return Ok(new
