@@ -17,3 +17,14 @@ public partial class Zapisnik
 
     public virtual Student IdStudentaNavigation { get; set; } = null!;
 }
+
+public partial class NewZapisnik
+{
+    public int IdStudenta { get; set; }
+
+    public int IdIspita { get; set; }
+
+    public float Ocena { get; set; }
+
+    public string Bodovi { get; set; } = null!;
+}

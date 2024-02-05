@@ -128,20 +128,20 @@ namespace pabp_projekat_web_api_entity.Controllers
         }
 
         // DELETE: api/Prijava_brojIndeksa/5
-        /*[HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePrijava_brojIndeksa(int id)
+        [HttpDelete("{idStudenta}/{idIspita}")]
+        public async Task<IActionResult> DeletePrijava_brojIndeksa(int idStudenta, int idIspita)
         {
-            var prijava_brojIndeksa = await _context.Prijavas.FindAsync(id);
+            var prijava_brojIndeksa = await _context.Prijava_brojIndeksa.Where(p => p.IdIspita == idIspita && p.IdStudenta == idStudenta).SingleOrDefaultAsync();
             if (prijava_brojIndeksa == null)
             {
                 return NotFound();
             }
 
-            _context.Prijavas.Remove(prijava_brojIndeksa);
+            _context.Prijava_brojIndeksa.Remove(prijava_brojIndeksa);
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }*/
+        }
 
         private bool Prijava_brojIndeksaExists(int id)
         {

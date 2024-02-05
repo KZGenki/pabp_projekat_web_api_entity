@@ -149,13 +149,22 @@ namespace pabp_projekat_web_api_entity.Controllers
             }
 
             return NoContent();
-        }
+        }*/
 
         // POST: api/Zapisniks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Zapisnik>> PostZapisnik(Zapisnik zapisnik)
+        public async Task<ActionResult<Zapisnik>> PostZapisnik(NewZapisnik zap)
         {
+            if(!(zap.Ocena>5 && zap.Ocena <= 10))
+            {
+                return BadRequest("Ocena izvan opsega [6,10]");
+            }
+            Zapisnik zapisnik = new Zapisnik();
+            zapisnik.IdStudenta = zap.IdStudenta;
+            zapisnik.IdIspita = zap.IdIspita;
+            zapisnik.Ocena = zap.Ocena;
+            zapisnik.Bodovi = zap.Bodovi;
             _context.Zapisniks.Add(zapisnik);
             try
             {
@@ -163,7 +172,7 @@ namespace pabp_projekat_web_api_entity.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ZapisnikExists(zapisnik.IdStudenta))
+                if (ZapisnikExists(zapisnik.IdStudenta, zapisnik.IdIspita))
                 {
                     return Conflict();
                 }
@@ -173,11 +182,11 @@ namespace pabp_projekat_web_api_entity.Controllers
                 }
             }
 
-            return CreatedAtAction("GetZapisnik", new { id = zapisnik.IdStudenta }, zapisnik);
+            return Ok();
         }
 
         // DELETE: api/Zapisniks/5
-        [HttpDelete("{id}")]
+        /*[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteZapisnik(int id)
         {
             var zapisnik = await _context.Zapisniks.FindAsync(id);
@@ -192,9 +201,9 @@ namespace pabp_projekat_web_api_entity.Controllers
             return NoContent();
         }*/
 
-        private bool ZapisnikExists(int id)
+        private bool ZapisnikExists(int idStudenta, int idIspita)
         {
-            return _context.Zapisniks.Any(e => e.IdStudenta == id);
+            return _context.Zapisniks.Any(e => e.IdStudenta == idStudenta && e.IdIspita == idIspita);
         }
     }
 }
